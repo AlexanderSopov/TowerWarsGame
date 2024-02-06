@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { EnemyCharacter } from './prefabs/characters/EnemyCharacter';
+import { SimpleTower } from './prefabs/towers/SimpleTower';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
@@ -49,18 +49,6 @@ const initScene = (body) => {
     composer.addPass( renderPass );
   }
 
-  function update(d) {
-    for(let i=0; i<sceneSubjects.length; i++)
-      sceneSubjects[i].update();  
-    composer.render();
-  }
-
-
-  buildScene();
-  buildCamera();
-  buildRender();
-  createSceneSubjects();
-
   function createSceneSubjects () {
     const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x8d8d8d, 3 );
     hemiLight.position.set( 0, 20, 0 );
@@ -81,31 +69,36 @@ const initScene = (body) => {
     dirLight.shadow.camera.near = 0.1;
     dirLight.shadow.camera.far = 40;
     scene.add( dirLight );
+
     sceneSubjects.push(
       new WASDControls( camera, renderer.domElement )
-    );
-    scene.add(EnemyCharacter({
-      // helpers: true,
-      // basePosition: new THREE.Vector3(0, 0, 0)
-    }))
+    )
+      
+    sceneSubjects.push(
+      new SimpleTower( scene, camera )
+    )
+    sceneSubjects.push(
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(8, 0, 8) } )
+    )
+    // scene.add(EnemyCharacter({
+    //   // helpers: true,
+    //   // basePosition: new THREE.Vector3(0, 0, 0)
+    // }))
+
   }
 
-  
-  
-  // const pointLight = new THREE.PointLight( 0xff0000, 100, 100 );
-  // pointLight.position.set( 10, 10, 0 );
-  // pointLight.castShadow = true
-  // scene.add( pointLight );
-  
-  // const sphereSize = 100;
-  // const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-  // scene.add( pointLightHelper );
-  
-  
-  // const controls = new OrbitControls( camera, renderer.domElement );
-  // scene.add(EnemyCharacter({ helpers: true, basePosition: new THREE.Vector3(3, 0, 0) }))
-  // scene.add(EnemyCharacter({ helpers: true, basePosition: new THREE.Vector3(3, 0, 3) }))
-  // scene.add(EnemyCharacter({ helpers: true, basePosition: new THREE.Vector3(0, 0, 3) }))
+  function update(d) {
+    for(let i=0; i<sceneSubjects.length; i++)
+      sceneSubjects[i].update(d);  
+    composer.render();
+  }
+
+  buildScene();
+  buildCamera();
+  buildRender();
+  createSceneSubjects();
+
+
 
   return {
     update,
