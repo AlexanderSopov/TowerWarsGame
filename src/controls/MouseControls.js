@@ -1,0 +1,31 @@
+import { Raycaster, Vector2 } from "three"
+import { publish } from "../utilities/EventBus"
+
+export default class MouseControls {
+  raycaster = new Raycaster()
+  pointer = new Vector2(0,0)
+  published = {
+    intersects: null
+  }
+
+  constructor (scene, camera) {
+    window.addEventListener('pointermove', this.setPointer)
+    setTimeout(() => publish('mousePointer', this.published), 125)
+    this.scene = scene
+    this.camera = camera
+  }
+
+  setPointer = (evt) => {
+    this.pointer.x = ( evt.clientX / window.innerWidth ) * 2 - 1;
+    this.pointer.y = - ( evt.clientY / window.innerHeight ) * 2 + 1;
+
+    this.raycaster.setFromCamera( this.pointer, this.camera );
+    // calculate objects intersecting the picking ray
+    this.published.intersects = this.raycaster.intersectObjects(
+      this.scene.children.filter(ch => ch.mouseSelectable)
+    )
+  }
+
+  update() {}
+
+}

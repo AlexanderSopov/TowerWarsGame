@@ -6,6 +6,7 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { WASDControls } from './controls/WASDControls'
+import MouseControls from './controls/MouseControls'
 
 // later in your init routine
 
@@ -32,7 +33,7 @@ const initScene = (body) => {
 
   const buildCamera = () => {
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.z = 15
+    camera.position.z = 20
     camera.position.y = 20
     camera.rotation.x = -.65  
   }
@@ -73,12 +74,21 @@ const initScene = (body) => {
     sceneSubjects.push(
       new WASDControls( camera, renderer.domElement )
     )
+    sceneSubjects.push(
+      new MouseControls( scene, camera, renderer.domElement )
+    )
       
     sceneSubjects.push(
       new SimpleTower( scene, camera )
     )
     sceneSubjects.push(
       new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(8, 0, 8) } )
+    )
+    sceneSubjects.push(
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(0, 0, 8) } )
+    )
+    sceneSubjects.push(
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(8, 0, 0) } )
     )
     // scene.add(EnemyCharacter({
     //   // helpers: true,
