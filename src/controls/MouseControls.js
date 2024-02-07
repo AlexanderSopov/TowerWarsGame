@@ -5,11 +5,13 @@ export default class MouseControls {
   raycaster = new Raycaster()
   pointer = new Vector2(0,0)
   published = {
-    intersects: null
+    intersects: null,
+    selected: null
   }
 
   constructor (scene, camera) {
     window.addEventListener('pointermove', this.setPointer)
+    window.addEventListener('click', this.select)
     setTimeout(() => publish('mousePointer', this.published), 125)
     this.scene = scene
     this.camera = camera
@@ -24,6 +26,10 @@ export default class MouseControls {
     this.published.intersects = this.raycaster.intersectObjects(
       this.scene.children.filter(ch => ch.mouseSelectable)
     )
+  }
+
+  select = () => {
+    this.published.selected = this.published.intersects[0]
   }
 
   update() {}

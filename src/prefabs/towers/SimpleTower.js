@@ -5,7 +5,7 @@ const SIZE = 1.5
 const color = 0xa4444a
 
 export class SimpleTower {
-
+  isSelected = false
   mousePointer = {}
 
   constructor (scene, camera, opts) {
@@ -44,7 +44,7 @@ export class SimpleTower {
     })
   }
 
-  isSelectable () {
+  setSelectable () {
     const { intersects } = this.mousePointer
     if (
       intersects
@@ -53,12 +53,30 @@ export class SimpleTower {
     ) {
       this.cube.material.color.set( 0x0000ff );
       document.body.style.cursor = 'pointer';
-    } else {
+      this.isSelectable = true
+    } else if (this.isSelectable) {
+      this.cube.material.color.set( color );
+    }
+  }
+
+  setSelected () {
+    const { selected } = this.mousePointer
+    if (
+      selected
+      && selected.object.id == this.cube.id
+    ) {
+      this.cube.material.color.set( 0xffa000 );
+      document.body.style.cursor = 'pointer';
+      this.isSelected = true
+    } else if (this.isSelected) {
+      this.isSelected = false
       this.cube.material.color.set( color );
     }
   }
 
   update () {
-    this.isSelectable()
+    if (!this.selected)
+      this.setSelectable()
+    this.setSelected()
   }
 }
