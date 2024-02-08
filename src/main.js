@@ -1,7 +1,9 @@
+import MenuManager from './menu/Menu';
 import SceneManager from './scene-manager'
 
-const canvas = document.body
+const canvas = document.getElementById("three-container")
 const sceneManager = new SceneManager(canvas);
+const menuManager = new MenuManager()
 bindEventListeners();
 render();
 

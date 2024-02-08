@@ -55,7 +55,9 @@ export class SimpleTower {
       document.body.style.cursor = 'pointer';
       this.isSelectable = true
     } else if (this.isSelectable) {
+      document.body.style.cursor = 'default';
       this.cube.material.color.set( color );
+      this.isSelectable = false
     }
   }
 
@@ -66,7 +68,6 @@ export class SimpleTower {
       && selected.object.id == this.cube.id
     ) {
       this.cube.material.color.set( 0xffa000 );
-      document.body.style.cursor = 'pointer';
       this.isSelected = true
     } else if (this.isSelected) {
       this.isSelected = false

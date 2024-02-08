@@ -1,5 +1,5 @@
 import { Raycaster, Vector2 } from "three"
-import { publish } from "../utilities/EventBus"
+import { publish, subscribe } from "../utilities/EventBus"
 
 export default class MouseControls {
   raycaster = new Raycaster()
@@ -15,6 +15,11 @@ export default class MouseControls {
     setTimeout(() => publish('mousePointer', this.published), 125)
     this.scene = scene
     this.camera = camera
+    subscribe('refreshMouseState', () => {
+      this.published.intersects = []
+      this.published.selected = null
+      publish('mouseSelect', null)
+    })
   }
 
   setPointer = (evt) => {
@@ -30,7 +35,10 @@ export default class MouseControls {
 
   select = () => {
     this.published.selected = this.published.intersects[0]
+    publish('mouseSelect', this.published.selected)
   }
+
+
 
   update() {}
 
