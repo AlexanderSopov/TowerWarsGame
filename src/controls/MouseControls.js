@@ -1,7 +1,6 @@
 import { Raycaster, Vector2 } from "three"
-// import { addIntersects, setSelected } from "../store/mousePointer/Slice"
-// import { store } from "../store"
-
+import { addIntersects, setSelected } from "../store/mousePointer/Slice"
+import { store } from "../store"
 
 export default class MouseControls {
   raycaster = new Raycaster()
@@ -26,29 +25,31 @@ export default class MouseControls {
     this.raycaster.setFromCamera( this.pointer, this.camera );
 
     const objectsToIntersect = this.scene.children.filter(ch => ch.mouseSelectable)
-    console.log(objectsToIntersect)
-    const intersects = this.raycaster.intersectObject(objectsToIntersect)
-    console.log('intersects', intersects)
-    // calculate objects intersecting the picking ray
-    // if (intersects.length > 0)
-    //   store.dispatch(
-    //     addIntersects(
-    //       intersects
-    //     )
-    //   )
+    const intersects = this.raycaster.intersectObjects(
+      objectsToIntersect
+    )
+
+    if (!!this.published.intersects || intersects.length > 0) {
+      store.dispatch(
+        addIntersects(
+          intersects[0] ?
+            { id: intersects[0].object.id } :
+            null
+        )
+      )
+    }
   }
 
   select = () => {
     store.dispatch(
       setSelected(
-        this.published.intersects[0]
+        this.published.intersects
       )
     )
   }
 
   storeUpdater = () => {
     const state = store.getState()
-    console.log("state", state)
     this.published = state.mousePointer
   }
 

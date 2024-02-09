@@ -1,4 +1,5 @@
-import { subscribe, publish } from "../utilities/EventBus"
+import { store } from '/store'
+import { refreshState } from "../store/mousePointer/Slice"
 
 export default class MenuManager {
   container
@@ -10,7 +11,7 @@ export default class MenuManager {
       evt.stopPropagation();
       return false;
     })
-    subscribe('mouseSelect', this.threeSelect)
+    store.subscribe(this.threeSelect)
     this.menuWindow = new MenuWindow()
     this.menuStats = new MenuStats()
     this.menuOptions = new MenuOptions()
@@ -26,8 +27,10 @@ export default class MenuManager {
     `
   }
 
-  threeSelect = (selected) => {
-    this.state.selected = selected
+  threeSelect = () => {
+    const { mousePointer } = store.getState()
+    console.log('selected', mousePointer.selected)
+    this.state.selected = mousePointer.selected
     this.render()
   }
 }
@@ -39,11 +42,14 @@ class MenuWindow {
     this.state = state
   }
 
+
   removeSelect = () => {
     window._removeSelect = (function () {
-      const _publish = publish
+      const _publish = function () {
+        store.dispatch(refreshState())
+      }
       return function () {
-        _publish('refreshMouseState')
+        _publish()
       }
     })()
     return '_removeSelect()'
@@ -54,7 +60,7 @@ class MenuWindow {
       ${this.title(state.selected)}
     </div>`
   }
-  title = (selected) => `<h1 onclick="${this.removeSelect()}">${selected ? selected.object.parent.id: "Standard"}</h1>`
+  title = (selected) => `<h1 onclick="${this.removeSelect()}">${selected ? selected.id: "Standard"}</h1>`
   // title = (selected) => `<h1>${"Standard"}</h1>`
 }
 class MenuStats {

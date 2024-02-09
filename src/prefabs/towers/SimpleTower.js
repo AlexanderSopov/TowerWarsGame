@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { subscribe } from '../../utilities/EventBus'
+import { store } from "/store"
 
 const SIZE = 1.5
 const color = 0xa4444a
@@ -39,7 +39,8 @@ export class SimpleTower {
 
     this.scene.add(this.character)
 
-    subscribe('mousePointer', mousePointer => {
+    store.subscribe(() => {
+      const { mousePointer } = store.getState()
       this.mousePointer = mousePointer
     })
   }
@@ -48,8 +49,7 @@ export class SimpleTower {
     const { intersects } = this.mousePointer
     if (
       intersects
-      && intersects[0]
-      && intersects[0].object.id == this.cube.id
+      && intersects.id == this.cube.id
     ) {
       this.cube.material.color.set( 0x0000ff );
       document.body.style.cursor = 'pointer';
@@ -65,7 +65,7 @@ export class SimpleTower {
     const { selected } = this.mousePointer
     if (
       selected
-      && selected.object.id == this.cube.id
+      && selected.id == this.cube.id
     ) {
       this.cube.material.color.set( 0xffa000 );
       this.isSelected = true

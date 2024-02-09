@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const mousePointerSlice = createSlice({
   name: 'mousePointer',
   initialState: {
-    intersects: [],
+    intersects: null,
     selected: null
   },
   reducers: {
@@ -12,11 +12,15 @@ const mousePointerSlice = createSlice({
     },
     setSelected(state, action) {
       state.selected = action.payload
+    },
+    refreshState (state) {
+      state.intersects = null
+      state.selected = null
     }
   }
 })
 
-export const { addIntersects, setSelected } = mousePointerSlice.actions
+export const { addIntersects, setSelected, refreshState } = mousePointerSlice.actions
 
 export default mousePointerSlice.reducer
 
