@@ -1,5 +1,7 @@
-import * as THREE from 'three'
-export class WASDControls {
+import { store } from "../store"
+import { refreshState } from "../store/mousePointer/Slice"
+
+export class KeyboardControls {
   camera
   up = false
   down = false
@@ -28,6 +30,9 @@ export class WASDControls {
           break
         case "z":
           this.y = -1
+          break
+        case "Escape":
+          store.dispatch(refreshState())
           break
       }
     })

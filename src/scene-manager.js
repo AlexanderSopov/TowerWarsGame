@@ -5,7 +5,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { WASDControls } from './controls/WASDControls'
+import { KeyboardControls } from './controls/KeyboardControls'
 import MouseControls from './controls/MouseControls'
 
 // later in your init routine
@@ -28,15 +28,15 @@ const initScene = (body) => {
     texture.repeat.set( 1, 1 );
     scene.background = texture
     // scene.background = new THREE.Color( 0xas0a0a0 );
-    scene.fog = new THREE.Fog( 0xa0a0a0, 10, 150 );
+    scene.fog = new THREE.Fog( 0xa0a0a0, 10, 250 );
   }
 
   const buildCamera = () => {
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.z = 30
+    camera.position.z = 50
     camera.position.x = 4
-    camera.position.y = 20
-    camera.rotation.x = -.65  
+    camera.position.y = 40
+    camera.rotation.x = -.75  
   }
 
   const buildRender = () => {
@@ -73,7 +73,7 @@ const initScene = (body) => {
     scene.add( dirLight );
 
     sceneSubjects.push(
-      new WASDControls( camera, renderer.domElement )
+      new KeyboardControls( camera, renderer.domElement )
     )
     sceneSubjects.push(
       new MouseControls( scene, camera, renderer.domElement )
