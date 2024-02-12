@@ -18,7 +18,7 @@ export class SimpleTower {
     this.character = new THREE.Object3D()
     this.character.mouseSelectable = true
 
-    const geometry = new THREE.CylinderGeometry( SIZE * 1, SIZE * 1.5, SIZE * 4, 8 ); 
+    const geometry = new THREE.CylinderGeometry( SIZE * 1, SIZE * 1.5, SIZE * 4, 16 ); 
     const material = new THREE.MeshStandardMaterial( { color } );
     this.cube = new THREE.Mesh( geometry, material );
     this.cube.position.y = 1

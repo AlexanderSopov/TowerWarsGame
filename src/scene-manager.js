@@ -36,7 +36,6 @@ const initScene = (body) => {
     camera.position.z = 50
     camera.position.x = 4
     camera.position.y = 40
-    camera.rotation.x = -.75  
   }
 
   const buildRender = () => {
