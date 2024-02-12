@@ -91,7 +91,7 @@ export class KeyboardControls {
     ) {
       return
     }
-    this.y = evt.deltaY / 300
+    this.y = evt.deltaY / 200
     clearTimeout(this.stopZoomingTimeout)
     this.stopZoomingTimeout = setTimeout(() => this.zoomSlowing = true, 125)
   }
