@@ -12,11 +12,16 @@ export default class MenuUI {
   constructor () {
     const root = createRoot(document.getElementById('menu-container'));
     root.render(
-      <Provider store={store}>
-        <MenuWindow />
-        <MenuStats />
-        <MenuOptions />
-      </Provider>
+      <main onClick={e => {
+        e.stopPropagation()
+        return false
+      }}>
+        <Provider store={store}>
+          <MenuWindow />
+          <MenuStats />
+          <MenuOptions />
+        </Provider>
+      </main>
     );
   }
 }

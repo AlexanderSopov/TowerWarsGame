@@ -1,5 +1,5 @@
 import { store } from "../store"
-import { refreshState } from "../store/mousePointer/Slice"
+import { refreshState } from "../store/mousePointerSlice"
 
 export class KeyboardControls {
   zoomMin = 5
@@ -35,6 +35,7 @@ export class KeyboardControls {
           break
       }
     })
+    this.handleRotation()
     document.addEventListener('keyup', evt => {
       switch (evt.key) {
         case "w":
@@ -66,9 +67,10 @@ export class KeyboardControls {
     this.camera.position.z += z
     this.camera.translateZ(this.y / 2)
     this.camera.position.y += this.y / 2
-    if (this.y !== 0)
+    if (this.y !== 0) {
       this.handleZoom()
       this.handleRotation()
+    }
   }
 
   handleZoom () {
@@ -117,13 +119,11 @@ export class KeyboardControls {
     const yPos = this.camera.position.y
     const ySpan = this.zoomMax - this.zoomMin
     const threshold = this.zoomMax - ySpan / 4
-    const zoomSpan = threshold - this.zoomMin
+    const rotationZoomSpan = threshold - this.zoomMin
     if (threshold < yPos)
       return
-    this.camera.rotation.x = -.25
-    this.camera.rotation.x = -.85
     const zoom = yPos - this.zoomMin
-    const percentage = zoom / zoomSpan
+    const percentage = zoom / rotationZoomSpan
     const rotation = .5 * percentage
     this.camera.rotation.x = -.25 - rotation
   }

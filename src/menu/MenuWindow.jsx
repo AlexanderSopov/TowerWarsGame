@@ -1,18 +1,20 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { refreshState } from "../store/mousePointer/Slice"
 
 const MenuWindow = () => {
-  const selected = useSelector(state => state.mousePointer.selected);
+  const { portrait } = useSelector(state => state.commandPanel);
   const dispatch = useDispatch()
   const refresh = () => {
     dispatch(refreshState())
   }
-
-  const title = () => <h1 style={{cursor: 'pointer', padding: '20px'}} onClick={refresh}>
-    {selected ? selected.id : 'Standard'}
-  </h1>
-
-  return <div className='menu__window'>{title()}</div>
+  
+  const image = () => portrait.image && <img src={portrait.image} className="menu__window-image" />
+  const stats = stat => stat && `${stat.current} / ${stat.max}`
+  return <div className='menu__window'>
+    {image()}
+    <div className="menu__window-stats menu__window-health">{stats(portrait.health)}</div>
+    <div className="menu__window-stats menu__window-mana">{stats(portrait.mana)}</div>
+  </div>
+  // return <div className='menu__window'>{title()}</div>
 }
 export default MenuWindow

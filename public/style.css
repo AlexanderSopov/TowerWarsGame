@@ -2,7 +2,7 @@ body { margin: 0; }
 #menu-container * {
   box-sizing: border-box;
 }
-#menu-container {
+#menu-container main {
   width: 100%;
   height: 240px;
   background: white;
@@ -13,18 +13,49 @@ body { margin: 0; }
   flex-wrap: wrap;
 }
 .menu__window {
+  height: 100%;
   width: 20%;
   border: 1px solid black;
   text-align: center;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-content: center;
+}
+.menu__window .menu__window-image {
+  width: calc(100%);
+  height: calc(100% - 68px);
+  padding: 8px;
+  object-fit: cover;
+}
+.menu__window .menu__window-stats {
+  width: 100%;
 }
 .menu__stats {
+  height: 100%;
   width: 50%;
   border: 1px solid black;
+  padding: 40px 80px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+.menu__stats .menu__stats-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.menu__stats .menu__stats-container > *{
+  width: 50%;
 }
 .menu__options {
+  height: 100%;
   width: 30%;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+}
+.menu__options > *{
+  height: 33.33%;
+  width: 25%;
   border: 1px solid black;
 }

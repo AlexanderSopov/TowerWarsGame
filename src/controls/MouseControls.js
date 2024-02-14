@@ -1,5 +1,5 @@
 import { Raycaster, Vector2 } from "three"
-import { addIntersects, setSelected } from "../store/mousePointer/Slice"
+import { addIntersects, setSelected } from "../store/mousePointerSlice"
 import { store } from "../store"
 
 export default class MouseControls {
