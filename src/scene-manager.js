@@ -7,6 +7,7 @@ import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { KeyboardControls } from './controls/KeyboardControls'
 import MouseControls from './controls/MouseControls'
+import TowerBuilders from './builders/TowerBuilders';
 
 // later in your init routine
 
@@ -89,6 +90,9 @@ const initScene = (body) => {
     )
     sceneSubjects.push(
       new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(8, 0, 0) } )
+    )
+    sceneSubjects.push(
+      new TowerBuilders(scene, camera)
     )
     // scene.add(EnemyCharacter({
     //   // helpers: true,

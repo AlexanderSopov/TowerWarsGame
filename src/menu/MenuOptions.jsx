@@ -1,5 +1,6 @@
 import React from "react"
 import { useSelector, useDispatch } from 'react-redux'
+import { publish } from "../utilities/EventBus";
 
 const MenuOptions = () => {
   const { options } = useSelector(state => state.commandPanel);
@@ -8,6 +9,7 @@ const MenuOptions = () => {
     (_, i) => options[i]
   ).map((opt, i) => <div key={i} title={opt && `${opt.description} Price: ${opt.cost}`}>
       { opt && <img
+        onClick={() => opt.action && publish(opt.action[0], opt.action[1])}
         src={opt.icon}
         style={{
           width: "100%",

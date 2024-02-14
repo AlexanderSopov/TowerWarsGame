@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { setSelected } from './mousePointerSlice'
+import { TowerOptions } from '/builders/TowerBuilders'
 
 const initialState = {
   portrait: {
@@ -12,7 +13,9 @@ const initialState = {
     name: null,
     stats: []
   },
-  options: []
+  options: [
+    ...TowerOptions
+  ]
 }
 const commandPanelSlice = createSlice({
   name: 'commandPanel',
