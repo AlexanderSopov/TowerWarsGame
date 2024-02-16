@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { setSelected } from './mousePointerSlice'
+import { refreshState, setSelected } from './mousePointerSlice'
 import { TowerOptions } from '/builders/TowerBuilders'
 
 const initialState = {
@@ -34,6 +34,11 @@ const commandPanelSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(setSelected, (state, action) => {
+      if (!action.payload) {
+        return initialState
+      }
+    })
+    builder.addCase(refreshState, (state, action) => {
       if (!action.payload) {
         return initialState
       }

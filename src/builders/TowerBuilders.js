@@ -1,7 +1,9 @@
 import { Vector3 } from 'three'
 import pisa from '/prefabs/towers/images/pisa.jpg'
-import { subscribe } from '../utilities/EventBus'
+import { subscribe, publish } from '../utilities/EventBus'
 import { SimpleTower } from '../prefabs/towers/SimpleTower'
+import { buildstate } from '../prefabs/towers/Tower'
+import { addSceneSubject } from '../scene-manager'
 
 export const TowerOptions = [
   {
@@ -16,11 +18,16 @@ class TowerBuilders {
   i = 0
   constructor (scene, camera) {
     subscribe('BuildSimpleTower', () => {
-      console.log('haaaaaiii', this.i)
-      new SimpleTower(scene, camera, {
-        basePosition: new Vector3(16 + this.i, 0, 0)
-      })
-      this.i += 8
+      publish(
+        'PlaceObject',
+        new SimpleTower(scene, camera, {
+          basePosition: new Vector3(16 + this.i, 0, 0),
+          status: buildstate.PLACEABLE
+        })
+      )
+    })
+    subscribe('ConstructObject', (tower) => {
+      addSceneSubject(tower)
     })
   }
   update () {}

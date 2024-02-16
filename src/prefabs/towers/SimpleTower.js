@@ -18,29 +18,28 @@ export class SimpleTower extends Tower {
 
     this.scene = scene
     this.camera = camera
-    this.character = new THREE.Object3D()
 
     const geometry = new THREE.CylinderGeometry( SIZE * 1, SIZE * 1.5, SIZE * 4, 16 ); 
     const material = new THREE.MeshStandardMaterial( { color } );
     this.cube = new THREE.Mesh( geometry, material );
     this.cube.position.y = 1
     this.cube.castShadow = true
-    this.character.add( this.cube );
+    this.add( this.cube );
 
-    this.components.push(new Selectable(this.character, this.cube, color, this.generateCommandPanelData()))
+    this.components.push(new Selectable(this, this.cube, color, this.generateCommandPanelData()))
 
     if (helpers) {
-      this.character.add( createPlaneGeo() );
+      this.add( createPlaneGeo() );
     }
 
     if (basePosition) {
-      this.character.position.x = basePosition.x
-      this.character.position.y = basePosition.y
-      this.character.position.z = basePosition.z
+      this.position.x = basePosition.x
+      this.position.y = basePosition.y
+      this.position.z = basePosition.z
     }
 
-    this.scene.add(this.character)
-    subscribe(eventBusPrefix + this.character.id, price => this.sell(price))
+    this.scene.add(this)
+    subscribe(eventBusPrefix + this.id, price => this.sell(price))
   }
 
   generateCommandPanelData () {
@@ -90,7 +89,7 @@ export class SimpleTower extends Tower {
           description: 'Sell tower to regain money.',
           cost: 200,
           costLabel: 'Sell',
-          action: [eventBusPrefix + this.character.id, 200]
+          action: [eventBusPrefix + this.id, 200]
         }
       ]
     }

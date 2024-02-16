@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { EnemyCharacter } from './prefabs/characters/EnemyCharacter';
+
 import { SimpleTower } from './prefabs/towers/SimpleTower';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
@@ -9,7 +9,17 @@ import { KeyboardControls } from './controls/KeyboardControls'
 import MouseControls from './controls/MouseControls'
 import TowerBuilders from './builders/TowerBuilders';
 
-// later in your init routine
+const sceneSubjects = []
+
+export const removeSceneSubject = (ch) => {
+  const i = sceneSubjects.findIndex(ss => ss.id == ch.id)
+  if (i < 0)
+    throw new Error("Object not a subject of scene")
+  sceneSubjects.splice(i, 1)
+}
+export const addSceneSubject = (ss) => sceneSubjects.push(ss)
+export const getSceneSubjects = () => sceneSubjects
+
 
 const initScene = (body) => {
   const canvas = body
@@ -18,8 +28,6 @@ const initScene = (body) => {
     composer,
     renderer,
     camera
-
-  const sceneSubjects = []
 
   const buildScene = () => {
     scene = new THREE.Scene();
@@ -59,7 +67,10 @@ const initScene = (body) => {
     const floor = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500 ), new THREE.MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
     floor.rotation.x = - Math.PI / 2;
     floor.receiveShadow = true;
+    floor.isFloor = true
     scene.add( floor );
+    floor.update = () => {}
+    sceneSubjects.push(floor)
     
     const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
     dirLight.position.set( 3, 10, 10 );
