@@ -1,9 +1,8 @@
 import { Object3D, FrontSide, PlaneGeometry, MeshBasicMaterial, Mesh } from "three"
 import { removeSceneSubject } from "../../scene-manager"
-import { roundToTile, Tile, TILE_SIZE, WORLD_HEIGHT, WORLD_WIDTH } from "../../tile-system"
+import { roundToTile, Tile, TILE_SIZE } from "../../tile-system"
 import { store } from "../../store"
 import { addTile, removeTile } from "../../store/worldSlice"
-
 
 export const buildstate = {
   PLACEABLE: 'transparent'
@@ -54,7 +53,7 @@ export default class AbstractTower extends Object3D {
         store.dispatch(addTile({
           x: z - Math.ceil(this.tileWidth / 2) + j,
           y: x - Math.ceil(this.tileHeight / 2) + i,
-          tile: (new Tile("building", false, null)).serialize()
+          tile: (new Tile("destructible")).serialize()
         }));
     this.placeState = 3
   }

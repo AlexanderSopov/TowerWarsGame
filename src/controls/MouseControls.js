@@ -3,7 +3,7 @@ import { addIntersects, setSelected } from "../store/mousePointerSlice"
 import { store } from "../store"
 import { publish, subscribe } from "../utilities/EventBus"
 import { getSceneSubjects } from "../scene-manager"
-import { TILE_SIZE, roundToTile } from "../tile-system"
+import { roundToTile } from "../tile-system"
 
 export default class MouseControls {
   raycaster = new Raycaster()

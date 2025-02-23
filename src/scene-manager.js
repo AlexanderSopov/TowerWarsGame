@@ -6,10 +6,9 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { KeyboardControls } from './controls/KeyboardControls'
-import { roundToTile } from './tile-system';
 import MouseControls from './controls/MouseControls'
 import TowerBuilders from './builders/TowerBuilders';
-import { TILE_SIZE, WORLD_HEIGHT, WORLD_WIDTH } from './tile-system';
+import { TILE_SIZE, WORLD_HEIGHT, WORLD_WIDTH, roundToTile } from './tile-system';
 
 const sceneSubjects = []
 

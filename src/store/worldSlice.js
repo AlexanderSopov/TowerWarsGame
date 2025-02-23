@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createSelector } from '@reduxjs/toolkit'
 import { Tile, WORLD_WIDTH, WORLD_HEIGHT } from '../tile-system';
 
 
@@ -8,7 +8,7 @@ const emptyWorld = () => {
   for (let y = 0; y < WORLD_HEIGHT; y++) {
     world[y] = [];
     for (let x = 0; x < WORLD_WIDTH; x++) {
-        world[y][x] = (new Tile('empty', true)).serialize();
+        world[y][x] = (new Tile('free')).serialize();
     }
   }
   // Set up buildings
@@ -25,10 +25,10 @@ const worldSlice = createSlice({
     },
     removeTile (state, action) {
       const { x, y } = action.payload
-      state[x][y] = (new Tile('empty', true)).serialize();
+      state[x][y] = (new Tile('free')).serialize();
     },
     refreshWorld (state) {
-      state = emptyWorld()
+      return emptyWorld()
     }
   }
 })
@@ -61,6 +61,15 @@ function deserializeState(state) {
   const deserializedTiles = state.world.map(row => row.map(tileData => Tile.deserialize(tileData)));
   return { ...state, world: deserializedTiles };
 }
+
+// Selectors
+export const selectWorld = (state) => state.world
+
+export const selectWorldTileStates = createSelector(
+  selectWorld,
+  (world) => world.map(row => row.map(tile => tile.state))
+)
+
 
 export const { addTile, removeTile, refreshWorld } = worldSlice.actions
 export default worldSlice.reducer

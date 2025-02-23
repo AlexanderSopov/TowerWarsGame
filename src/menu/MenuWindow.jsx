@@ -11,9 +11,9 @@ const MenuWindow = () => {
   }
   
   const COLORS = {
-    empty: "beige",
-    obstacle: "black",
-    building: "red",
+    free: "beige",
+    blocked: "black",
+    destructible: "red",
   }
 
   const image = () => portrait.image && <img src={portrait.image} className="menu__window-image" />
@@ -31,7 +31,7 @@ const MenuWindow = () => {
     {
       world && world.map(
         (row, i) => row.map(
-          (cell, j) => <div key={`${i}-${j}`} style={{ backgroundColor: COLORS[cell.type] }}></div>
+          (cell, j) => <div key={`${i}-${j}`} style={{ backgroundColor: COLORS[cell.state] }}></div>
         )
       )
     }
