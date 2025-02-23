@@ -2,7 +2,7 @@ import { Vector3 } from 'three'
 import pisa from '/prefabs/towers/images/pisa.jpg'
 import { subscribe, publish } from '../utilities/EventBus'
 import { SimpleTower } from '../prefabs/towers/SimpleTower'
-import { buildstate } from '../prefabs/towers/Tower'
+import { buildstate } from '../prefabs/towers/AbstractTower'
 import { addSceneSubject } from '../scene-manager'
 
 export const TowerOptions = [

@@ -28,10 +28,10 @@ class Selectable {
       && intersects.id == this.cube.id
     ) {
       this.cube.material.color.set( 0x0000ff );
-      document.body.style.cursor = 'pointer';
+      // document.body.style.cursor = 'pointer';
       this.isSelectable = true
     } else if (this.isSelectable) {
-      document.body.style.cursor = 'default';
+      // document.body.style.cursor = 'default';
       this.cube.material.color.set( this.color );
       this.isSelectable = false
     }

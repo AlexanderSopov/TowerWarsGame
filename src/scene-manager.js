@@ -6,8 +6,10 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { LuminosityShader } from 'three/addons/shaders/LuminosityShader.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { KeyboardControls } from './controls/KeyboardControls'
+import { roundToTile } from './tile-system';
 import MouseControls from './controls/MouseControls'
 import TowerBuilders from './builders/TowerBuilders';
+import { TILE_SIZE, WORLD_HEIGHT, WORLD_WIDTH } from './tile-system';
 
 const sceneSubjects = []
 
@@ -23,7 +25,8 @@ export const getSceneSubjects = () => sceneSubjects
 
 const initScene = (body) => {
   const canvas = body
-
+  const midW = WORLD_WIDTH * TILE_SIZE / 2
+  const midH = WORLD_HEIGHT * TILE_SIZE / 2
   var scene,
     composer,
     renderer,
@@ -42,8 +45,8 @@ const initScene = (body) => {
 
   const buildCamera = () => {
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.z = 50
-    camera.position.x = 4
+    camera.position.z = 50 + midH
+    camera.position.x = 4 + midW
     camera.position.y = 40
   }
 
@@ -64,10 +67,12 @@ const initScene = (body) => {
     hemiLight.position.set( 0, 20, 0 );
     scene.add( hemiLight );
     
-    const floor = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500 ), new THREE.MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
+    const floor = new THREE.Mesh( new THREE.PlaneGeometry( WORLD_WIDTH * TILE_SIZE, WORLD_HEIGHT * TILE_SIZE ), new THREE.MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
     floor.rotation.x = - Math.PI / 2;
     floor.receiveShadow = true;
     floor.isFloor = true
+    floor.position.add(new THREE.Vector3(midW, 0, midH))
+    // floor.position.add(new THREE.Vector3(WORLD_WIDTH * TILE_SIZE / 2, WORLD_HEIGHT * TILE_SIZE / 2, 0))
     scene.add( floor );
     floor.update = () => {}
     sceneSubjects.push(floor)
@@ -91,16 +96,16 @@ const initScene = (body) => {
     )
       
     sceneSubjects.push(
-      new SimpleTower( scene, camera )
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(midW), 0, roundToTile(midH)) } )
     )
     sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(8, 0, 8) } )
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(8 + midW), 0, roundToTile(8 + midH)) } )
     )
     sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(0, 0, 8) } )
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(midW, 0, roundToTile(8 + midH)) } )
     )
     sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(8, 0, 0) } )
+      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(8 + midW), 0, midH) } )
     )
     sceneSubjects.push(
       new TowerBuilders(scene, camera)

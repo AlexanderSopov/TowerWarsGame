@@ -1,36 +1,39 @@
 import * as THREE from 'three'
 import Selectable from '../../components/Selectable'
-import Tower from './Tower'
+import AbstractTower from './AbstractTower'
 import pisa from './images/pisa.jpg'
 import upgrade from './images/upgrade.jpg'
 import sell from './images/sell.jpg'
 import { subscribe } from '../../utilities/EventBus'
+import { TILE_SIZE } from '/tile-system'
 
-const SIZE = 1.5
 const color = 0xa4444a
 const eventBusPrefix = 'sellSimpleTower_'
-export class SimpleTower extends Tower {
+
+const radius = 2
+const radiusTop = 1.25
+const height = 6
+export class SimpleTower extends AbstractTower {
 
   constructor (scene, camera, opts) {
-    super()
+    
+    super({
+      tileWidth: (radius * TILE_SIZE * 2 + TILE_SIZE) / TILE_SIZE,
+      tileHeight: (radius * TILE_SIZE * 2 + TILE_SIZE) / TILE_SIZE
+    }, opts)
 
-    const { helpers, basePosition } = opts ?? {}
+    const { basePosition } = opts ?? {}
 
     this.scene = scene
     this.camera = camera
 
-    const geometry = new THREE.CylinderGeometry( SIZE * 1, SIZE * 1.5, SIZE * 4, 16 ); 
+    const geometry = new THREE.CylinderGeometry( TILE_SIZE * radiusTop, TILE_SIZE * radius, TILE_SIZE * height, 16 ); 
     const material = new THREE.MeshStandardMaterial( { color } );
     this.cube = new THREE.Mesh( geometry, material );
-    this.cube.position.y = 1
-    this.cube.castShadow = true
+    this.cube.position.y = TILE_SIZE * height / 2
     this.add( this.cube );
 
     this.components.push(new Selectable(this, this.cube, color, this.generateCommandPanelData()))
-
-    if (helpers) {
-      this.add( createPlaneGeo() );
-    }
 
     if (basePosition) {
       this.position.x = basePosition.x

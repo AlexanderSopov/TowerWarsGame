@@ -3,8 +3,7 @@ import { addIntersects, setSelected } from "../store/mousePointerSlice"
 import { store } from "../store"
 import { publish, subscribe } from "../utilities/EventBus"
 import { getSceneSubjects } from "../scene-manager"
-
-const roundToTwo = x => Math.round(x / 2) * 2
+import { TILE_SIZE, roundToTile } from "../tile-system"
 
 export default class MouseControls {
   raycaster = new Raycaster()
@@ -75,9 +74,9 @@ export default class MouseControls {
     this.raycaster.setFromCamera( this.pointer, this.camera );
     const intersection = this.raycaster.intersectObject(getSceneSubjects().find(ss => ss.isFloor))
     if (intersection.length > 0) {
-      this.placeableObject.position.x = roundToTwo(intersection[0].point.x)
+      this.placeableObject.position.x = roundToTile(intersection[0].point.x)
       this.placeableObject.position.y = (intersection[0].point.y)
-      this.placeableObject.position.z = roundToTwo(intersection[0].point.z)
+      this.placeableObject.position.z = roundToTile(intersection[0].point.z)
     }
 }
 
