@@ -12,7 +12,6 @@ export class KeyboardControls {
   y = 0
   stopZoomingTimeout
   zoomSlowing = false
-  lastElapsed = 0
 
   constructor (camera) {
     this.camera = camera
@@ -61,9 +60,8 @@ export class KeyboardControls {
     })
   }
 
-  update(timeElapsed) {
-    const delta = (timeElapsed ?? 0) - this.lastElapsed
-    this.lastElapsed = timeElapsed ?? 0
+  update(d) {
+    const delta = d * 1000
     const x = this.left ? -1 : 0 + this.right ? 1 : 0
     const z = this.up ? -1 : 0 + this.down ? 1 : 0
     this.camera.position.x += x * delta / 16.69

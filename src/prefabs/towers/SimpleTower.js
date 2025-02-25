@@ -30,14 +30,16 @@ export class SimpleTower extends AbstractTower {
     const geometry = new THREE.CylinderGeometry( TILE_SIZE * radiusTop, TILE_SIZE * radius, TILE_SIZE * height, 16 ); 
     const material = new THREE.MeshStandardMaterial( { color } );
     this.cube = new THREE.Mesh( geometry, material );
-    this.cube.position.y = TILE_SIZE * height / 2
+    // this.cube.position.y = TILE_SIZE * height / 2
+    this.cube.position.y = 0
     this.add( this.cube );
 
     this.components.push(new Selectable(this, this.cube, color, this.generateCommandPanelData()))
 
     if (basePosition) {
       this.position.x = basePosition.x
-      this.position.y = basePosition.y
+      // this.position.y = basePosition.y
+      this.position.y = 0
       this.position.z = basePosition.z
     }
 

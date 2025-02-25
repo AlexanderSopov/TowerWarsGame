@@ -9,6 +9,7 @@ import { KeyboardControls } from './controls/KeyboardControls'
 import MouseControls from './controls/MouseControls'
 import TowerBuilders from './builders/TowerBuilders';
 import { TILE_SIZE, WORLD_HEIGHT, WORLD_WIDTH, roundToTile } from './tile-system';
+import { TestEnemy } from './prefabs/characters/TestEnemy';
 
 const sceneSubjects = []
 
@@ -95,21 +96,25 @@ const initScene = (body) => {
     )
       
     sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(midW), 0, roundToTile(midH)) } )
+      new TestEnemy ( scene )
     )
-    sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(8 + midW), 0, roundToTile(8 + midH)) } )
-    )
-    sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(midW, 0, roundToTile(8 + midH)) } )
-    )
-    sceneSubjects.push(
-      new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(8 + midW), 0, midH) } )
-    )
+    // sceneSubjects.push(
+    //   new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(8 + midW), 0, roundToTile(8 + midH)) } )
+    // )
+    // sceneSubjects.push(
+    //   new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(midW, 0, roundToTile(8 + midH)) } )
+    // )
+    // sceneSubjects.push(
+    //   new SimpleTower( scene, camera, { basePosition: new THREE.Vector3(roundToTile(8 + midW), 0, midH) } )
+    // )
     sceneSubjects.push(
       new TowerBuilders(scene, camera)
     )
     // scene.add(EnemyCharacter({
+    //   // helpers: true,
+    //   // basePosition: new THREE.Vector3(0, 0, 0)
+    // }))
+    // scene.add(new TestEnemy({
     //   // helpers: true,
     //   // basePosition: new THREE.Vector3(0, 0, 0)
     // }))

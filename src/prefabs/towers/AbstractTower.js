@@ -33,6 +33,7 @@ export default class AbstractTower extends Object3D {
     const geometry = new PlaneGeometry( tileWidth * TILE_SIZE, tileHeight * TILE_SIZE );
     const material = new MeshBasicMaterial( {color: 0xff0000, side: FrontSide} );
     const plane = new Mesh( geometry, material );
+    plane.position.y = -tileHeight + 1
     plane.rotation.x = -Math.PI/2
     this.add( plane );
   }
@@ -45,7 +46,6 @@ export default class AbstractTower extends Object3D {
   }
 
   addTiles () {
-    console.log('tilesize', this.tileWidth, this.tileHeight)
     const x = roundToTile(this.position.x) / TILE_SIZE
     const z = roundToTile(this.position.z) / TILE_SIZE
     for (let i = 0; i < this.tileWidth; i++)
