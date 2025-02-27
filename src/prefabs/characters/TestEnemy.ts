@@ -1,23 +1,25 @@
-import { CylinderGeometry, Mesh, MeshStandardMaterial, Object3D } from "three";
+import { BoxGeometry, CylinderGeometry, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { TILE_SIZE } from "../../tile-system";
 import { store } from "../../store";
 import { selectWorldTileStates } from "../../store/worldSlice";
-import { Position, TroopMovement } from "../../components/TroopMovement";
+import { Position, TileState, TroopMovement } from "../../components/TroopMovement";
 
 export class TestEnemy extends Object3D {
   body;
   path: Position[] | null;
   pathFinder
+  scene
 
   constructor ( scene: { add: (obj: Object3D) => {} } ) {
     super()
+    this.scene = scene
     this.body = new Mesh(
-      new CylinderGeometry(TILE_SIZE * 2, TILE_SIZE * 2, TILE_SIZE * 6, 16),
+      new CylinderGeometry(TILE_SIZE * .5, TILE_SIZE * .5, TILE_SIZE * 6, 16),
       new MeshStandardMaterial( { color: "yellow" })
     )
     // this.children.push(this.body)
-    this.body.position.setX(TILE_SIZE * 10)
-    this.body.position.setZ(TILE_SIZE * 10)
+    this.body.position.setX(TILE_SIZE * 5)
+    this.body.position.setZ(TILE_SIZE * 5)
     scene.add(this.body)
     this.pathFinder = new TroopMovement()
     this.path = null 
@@ -61,12 +63,55 @@ export class TestEnemy extends Object3D {
   update(delta: number) {
     // Initialize the path if it doesn’t exist
     if (!this.path) {
-        this.path = this.pathFinder.findPath(
-            { x: 10, y: 10 },
-            { x: 100, y: 100 },
-            selectWorldTileStates(store.getState())
-        );
-        return;
+      const world = selectWorldTileStates(store.getState())
+      this.path = this.pathFinder.findPath(
+          { x: 10, y: 10 },
+          { x: 100, y: 100 },
+          world
+      );
+
+      world.forEach((tiles: TileState[], i: number) => {
+        tiles.forEach((tile: TileState, j) => {
+          const red = new MeshStandardMaterial({
+            color: 0xff0000
+          })
+          const black = new MeshStandardMaterial({
+            color: 0x000000
+          })
+          const box = new BoxGeometry(
+            TILE_SIZE,
+            TILE_SIZE * 2,
+            TILE_SIZE,
+          )
+          switch(tile) {
+            case "blocked":
+              const block = new Mesh(
+                box,
+                black
+              )
+              block.position.setX(j * TILE_SIZE)
+              block.position.setZ(i * TILE_SIZE)
+              return this.scene.add(
+                block
+              )
+            case "destructible":
+              const building = new Mesh(
+                box,
+                red
+              )
+              building.position.setX(i * TILE_SIZE)
+              building.position.setZ(j * TILE_SIZE)
+              return this.scene.add(
+                building
+              )
+            case "free":
+            default:
+              return
+          }
+        })
+      })
+
+      return;
     }
 
     // If the path is empty, the troop has reached the destination

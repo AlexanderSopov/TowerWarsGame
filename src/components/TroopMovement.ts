@@ -5,7 +5,7 @@ export type Position = {
 };
 
 // Define possible tile states for type safety
-type TileState = 'free' | 'blocked' | 'destructible';
+export type TileState = 'free' | 'blocked' | 'destructible';
 
 export class TroopMovement {
   grid: TileState[][]

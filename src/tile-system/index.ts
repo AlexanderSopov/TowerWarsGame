@@ -1,8 +1,8 @@
 export const TILE_SIZE = 1.25
-export const WORLD_WIDTH = 200;
-export const WORLD_HEIGHT = 200;
+export const WORLD_WIDTH = 125;
+export const WORLD_HEIGHT = 125;
 
-export const roundToTile = x => Math.round(x / TILE_SIZE) * TILE_SIZE
+export const roundToTile = (x: number) => Math.round(x / TILE_SIZE) * TILE_SIZE
 
 type TileState = 'free' | 'blocked' | 'destructible';
 

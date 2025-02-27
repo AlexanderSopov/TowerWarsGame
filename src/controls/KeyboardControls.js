@@ -125,7 +125,7 @@ export class KeyboardControls {
       return
     const zoom = yPos - this.zoomMin
     const percentage = zoom / rotationZoomSpan
-    const rotation = .5 * percentage
+    const rotation = .65 * percentage
     this.camera.rotation.x = -.25 - rotation
   }
 }
