@@ -195,3 +195,36 @@ export const mazeWorld = () => {
   // Return the initialized world
   return world;
 };
+
+
+export const mapOne = () => {
+  const world = []
+  for (let i = 0; i < WORLD_WIDTH; i++) {
+    const row = []
+    for (let j = 0; j < WORLD_HEIGHT; j++) {
+      row.push(new Tile("free").serialize())
+    }
+    world.push(row)
+  }
+  createBlock(world, "blocked", 50, 65, 0, 30)
+  createBlock(world, "blocked", 55, 35, 70, 0)
+  createBlock(world, "blocked", 55, 35, 70, 90)
+  return { tiles: world, collisionCubes: [] }
+}
+
+export const mapOneAsCubes = () => {
+  const collisionCubes = []
+  // collisionCubes.push({ owner: { tileState: "blocked" }, x: 25, y: 25, h: 25, w: 25})
+  collisionCubes.push({ owner: { tileState: "blocked" }, h: 50, w: 65, x: 30, y: 0 })
+  collisionCubes.push({ owner: { tileState: "blocked" }, h: 55, w: 45, x: 0, y: 70 })
+  collisionCubes.push({ owner: { tileState: "blocked" }, h: 55, w: 45, x: 80, y: 70 })
+  return { collisionCubes }
+}
+
+export const createBlock = (world: any[][], type: TileState, height: number, width: number, startHeight: number, startWidth: number) => {
+  for (let i = startHeight; i < startHeight + height; i++) {
+    for (let j = startWidth; j < startWidth + width; j++) {
+      world[i][j] = new Tile(type).serialize()
+    }
+  }
+}

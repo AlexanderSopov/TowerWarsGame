@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { WORLD_WIDTH, WORLD_HEIGHT  } from '../tile-system';
+import { selectWorldTileStates } from '../store/worldSlice';
 
 const MenuWindow = () => {
   const { portrait } = useSelector(state => state.commandPanel);
-  const world = useSelector(state => state.world );
+  const world = useSelector(selectWorldTileStates);
+  console.log("world is ", world)
   const dispatch = useDispatch()
   const refresh = () => {
     dispatch(refreshState())
@@ -31,7 +33,7 @@ const MenuWindow = () => {
     {
       world && world.map(
         (row, i) => row.map(
-          (cell, j) => <div key={`${i}-${j}`} style={{ backgroundColor: COLORS[cell.state] }}></div>
+          (cell, j) => <div key={`${i}-${j}`} style={{ backgroundColor: COLORS[cell] }}></div>
         )
       )
     }
